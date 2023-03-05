@@ -1,4 +1,4 @@
-class BaseMethod:
+class BaseMethod: #общие методы
     def avg(self):
         average = []
         for i in self.grades.values():
@@ -45,7 +45,7 @@ class Student(BaseMethod):
                f'{", ".join(self.courses_in_progress)}\n'
                f'Завершенные курсы: {", ".join(self.finished_courses)}')
         return res
-        
+
 class Mentor:
     def __init__(self, name, surname):
         self.name = name
@@ -82,15 +82,38 @@ class Reviewer(Mentor):
                f'Фамилия: {self.surname}')
         return res
 
+student_list = []  #список студентов
+lecturer_list = [] #список лекторов
+
+#подсчет средней оценки студентов по курсу
+def avg_sl(post, cours):
+    gap = []
+    for i in post:
+        for j in i.grades[cours]:
+            gap.append(j)
+    general_grade = round((sum(gap) / len(gap)), 1)
+    print(f'Средняя оценка студентов по крусу "{cours}" - {general_grade}')
+
+#подсчет средней оценки лекторов по курсу
+def avg_ll(post, cours):
+    gap = []
+    for i in post:
+        for j in i.grades[cours]:
+            gap.append(j)
+    general_grade = round((sum(gap) / len(gap)), 1)
+    print(f'Средняя оценка лекторов по крусу "{cours}" - {general_grade}')
+
 #создание студента 1
 some_student = Student('Ruoy', 'Eman', 'your_gender')
 some_student.courses_in_progress += ['Python', 'Git']
 some_student.finished_courses += ['Введение в программирование']
+student_list.append(some_student)
 
 #создание студента 2
 other_student = Student('Bob', 'Dylan', 'man')
 other_student.courses_in_progress += ['Python', 'Git']
 other_student.finished_courses += ['Введение в программирование']
+student_list.append(other_student)
 
 #создание проверяющего
 some_reviewer = Reviewer('Some', 'Buddy')
@@ -101,11 +124,13 @@ some_reviewer.courses_attached += ['Git']
 some_lecturer = Lecturer('Some', 'Buddy')
 some_lecturer.courses_attached += ['Python']
 some_lecturer.courses_attached += ['Git']
+lecturer_list.append(some_lecturer)
 
 #создание лектора 2
 other_lecturer = Lecturer('Some', 'Buddy')
 other_lecturer.courses_attached += ['Python']
 other_lecturer.courses_attached += ['Git']
+lecturer_list.append(other_lecturer)
 
 #выставление оценок студенту 1
 some_reviewer.rate_hw(some_student, 'Python', 8)
@@ -149,3 +174,10 @@ print(some_lecturer > other_lecturer)
 print(some_lecturer < other_lecturer)
 print(some_lecturer == other_lecturer)
 print(some_lecturer != other_lecturer)
+print()
+#проверка функции подсчёта средней оценки студентов
+avg_sl(student_list, 'Python')
+print()
+#проверка функции подсчёта средней оценки лекторов
+avg_ll(lecturer_list, 'Python')
+print()
